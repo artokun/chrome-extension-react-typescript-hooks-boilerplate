@@ -1,26 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useCallback } from "react";
+import styled from "styled-components";
+import useChrome from "./hooks/useChrome";
 
-const App = () => {
+function App() {
+  const [onMessage, postMessage] = useChrome("crawler");
+
+  const handleClick = useCallback(() => {
+    postMessage({ type: "click", message: "clicked" });
+  }, [postMessage]);
+
+  onMessage(({ type, message }) => {
+    switch (type) {
+      case "init":
+        console.log(message);
+        break;
+      default:
+        console.error("unknown type:", type);
+    }
+  });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Extension>
+      <button type="button" onClick={handleClick}>
+        Click Me
+      </button>
+    </Extension>
   );
 }
+
+const Extension = styled.main`
+  display: flex;
+`;
 
 export default App;
