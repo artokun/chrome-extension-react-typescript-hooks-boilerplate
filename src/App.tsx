@@ -3,7 +3,7 @@ import styled from "styled-components";
 import useChrome from "./hooks/useChrome";
 
 const App: React.FC = () => {
-  const [onMessage, postMessage] = useChrome("crawler");
+  const [onMessage, postMessage] = useChrome("background");
 
   const handleClick = useCallback(() => {
     postMessage({ type: "click", message: "clicked" });
