@@ -1,32 +1,18 @@
-/*global chrome*/
-function Background() {
-  this.port = null;
-}
+/*global __chrome_extension__*/
+const bg = __chrome_extension__;
 
-// Private
-Background.prototype._listen = function(name, cb) {
-  if (!this.port) {
-    throw "Error: not connected";
+bg.connect("background", ({ type, message }) => {
+  switch (type) {
+    case "init":
+      this.post({
+        type: "init",
+        message: "connected to" + bg.port.name
+      });
+      break;
+    case "click":
+      console.log(message);
+      break;
+    default:
+      console.error("unknown type:", type);
   }
-  if (!name) {
-    throw "Error: no name supplied";
-  }
-  if (this.port.name === name) {
-    this.port.onMessage.addListener(cb);
-  }
-};
-
-// Public
-Background.prototype.connect = function(name, cb) {
-  chrome.runtime.onConnect.addListener(port => {
-    console.log("connected to", port.name);
-    this.port = port;
-    this._listen(name, cb);
-  });
-};
-
-Background.prototype.post = function(msg) {
-  return this.port.postMessage(msg);
-};
-
-window.background = new Background();
+});

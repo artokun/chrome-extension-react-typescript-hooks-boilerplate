@@ -27,10 +27,13 @@
     "eject": "react-scripts eject"
   },
   "watch": {
-    "build": [
-      "src/",
-      "public/"
-    ]
+    "build": {
+      "patterns": [
+        "src",
+        "public"
+      ],
+      "extensions": "js,ts,tsx,css,html"
+    }
   },
   "eslintConfig": {
     "extends": "react-app"

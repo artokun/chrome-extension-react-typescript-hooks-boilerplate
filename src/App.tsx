@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import styled from "styled-components";
 import useChrome from "./hooks/useChrome";
 
-function App() {
+const App: React.FC = () => {
   const [onMessage, postMessage] = useChrome("crawler");
 
   const handleClick = useCallback(() => {
@@ -21,15 +21,31 @@ function App() {
 
   return (
     <Extension>
+      <h1>CRA3 Typescript Extension</h1>
       <button type="button" onClick={handleClick}>
         Click Me
       </button>
     </Extension>
   );
-}
+};
 
 const Extension = styled.main`
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 250px;
+  height: 100px;
+
+  h1 {
+    margin-bottom: 20px;
+  }
+
+  button {
+    padding: 5px;
+    background: blue;
+    color: white;
+  }
 `;
 
 export default App;
